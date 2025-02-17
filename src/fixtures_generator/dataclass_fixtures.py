@@ -1,0 +1,44 @@
+import typing
+import dataclasses
+from .factory_fixtures import (
+    int_factory,
+    float_factory,
+    str_factory,
+)
+
+__all__ = (
+    'SimpleDataclass',
+    'SimpleDefaultsDataclass',
+    'SimpleDefaultFactoriesDataclass',
+    'OptionalDataclass',
+)
+
+
+@dataclasses.dataclass
+class SimpleDataclass:
+    x: int
+    y: float
+    z: str
+
+
+@dataclasses.dataclass
+class SimpleDefaultsDataclass:
+    x: int = 1
+    y: float = 1.1
+    z: str = 'hello'
+
+
+@dataclasses.dataclass
+class SimpleDefaultFactoriesDataclass:
+    x: int = dataclasses.field(default_factory=int_factory)
+    y: float = dataclasses.field(default_factory=float_factory)
+    z: str = dataclasses.field(default_factory=str_factory)
+
+
+@dataclasses.dataclass
+class OptionalDataclass:
+    x: int
+    y: typing.Optional[float]
+    z: typing.List[typing.Optional[str]]
+    d: typing.Dict[str, int]
+    s: SimpleDataclass
