@@ -1,3 +1,4 @@
+import enum
 import typing
 import dataclasses
 from .factory_fixtures import (
@@ -11,6 +12,11 @@ __all__ = (
     'SimpleDefaultsDataclass',
     'SimpleDefaultFactoriesDataclass',
     'OptionalDataclass',
+    'XID',
+    'YID',
+    'ZS',
+    'OneTwo',
+    'SubtypesDataclass',
 )
 
 
@@ -42,3 +48,29 @@ class OptionalDataclass:
     z: typing.List[typing.Optional[str]]
     d: typing.Dict[str, int]
     s: SimpleDataclass
+
+
+# region sub_classes
+class XID(int):
+    pass
+
+
+YID = typing.NewType('YID', float)
+
+
+class ZS(str):
+    pass
+
+
+class OneTwo(enum.Enum):
+    ONE = 'one'
+    TWO = 'two'
+
+
+@dataclasses.dataclass
+class SubtypesDataclass:
+    x: XID
+    y: YID
+    z: ZS
+    one_two: OneTwo
+# endregion subclasses
