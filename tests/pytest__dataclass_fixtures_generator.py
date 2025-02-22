@@ -12,6 +12,11 @@ from fixtures_generator.dataclass_fixtures import (
     SimpleDefaultsDataclass,
     SimpleDefaultFactoriesDataclass,
     OptionalDataclass,
+    XID,
+    YID,
+    ZS,
+    OneTwo,
+    SubtypesDataclass,
 )
 from unittest.mock import patch, Mock
 from one_patch import Op
@@ -553,7 +558,16 @@ class TestDataclassFixturesGenerator:
     @patch.object(
         tm.DataclassFixturesGenerator, tm.DataclassFixturesGenerator._generate_str.__name__, Mock(return_value='x')
     )
+    @patch.object(
+        tm.DataclassFixturesGenerator,
+        tm.DataclassFixturesGenerator._generate_enum.__name__,
+        Mock(return_value=OneTwo.TWO),
+    )
     def test_generate_fixtures(self):
+        x = SubtypesDataclass(x=XID(33), y=YID(0.3), z=ZS('x'), one_two=OneTwo.TWO)
+        y = SubtypesDataclass(x=XID(33), y=YID(0.3), z=ZS('x'), one_two=OneTwo.TWO)
+
+
         result = tm.DataclassFixturesGenerator.generate_fixtures(cls_=SimpleDataclass)
         assert result == [SimpleDataclass(x=33, y=0.3, z='x')]
 
@@ -565,9 +579,19 @@ class TestDataclassFixturesGenerator:
             OptionalDataclass(x=33, y=None, z=[None], d={'x': 33}, s=SimpleDataclass(x=33, y=0.3, z='x')),
         ]
 
+        result = tm.DataclassFixturesGenerator.generate_fixtures(cls_=SubtypesDataclass)
+        assert result == [SubtypesDataclass(x=XID(33), y=YID(0.3), z=ZS('x'), one_two=OneTwo.TWO)]
+
+    def test_new_type(self):
+        result = tm.DataclassFixturesGenerator.generate_fixtures(cls_=SubtypesDataclass)
+        assert isinstance(result[0].x, XID)
+        assert isinstance(result[0].z, ZS)
+        assert result[0].one_two in [OneTwo.ONE, OneTwo.TWO]
+
     def test_generate_fixtures__defaults(self):
         result = tm.DataclassFixturesGenerator.generate_fixtures(cls_=SimpleDefaultsDataclass)
         assert result == [SimpleDefaultsDataclass()]
 
         result = tm.DataclassFixturesGenerator.generate_fixtures(cls_=SimpleDefaultFactoriesDataclass)
         assert result == [SimpleDefaultFactoriesDataclass()]
+
