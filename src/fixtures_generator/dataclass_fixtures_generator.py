@@ -1,5 +1,6 @@
-import enum
 import typing
+import sys
+import enum
 import abc
 import dataclasses
 import random
@@ -375,6 +376,10 @@ class DataclassFixturesGenerator(abc.ABC):
         # region NewType
         if str(field_info.field_type).startswith('<function NewType.<locals>.new_type'):
            field_info = dataclasses.replace(field_info, field_type=getattr(field_info.field_type, '__supertype__'))
+
+        if sys.version_info >= (3, 10):
+            if isinstance(field_info.field_type, typing.cast(type, typing.NewType)):
+                field_info = dataclasses.replace(field_info, field_type=getattr(field_info.field_type, '__supertype__'))
         # endregion NewType
 
         cls._validate_field_type(field_info=field_info)
