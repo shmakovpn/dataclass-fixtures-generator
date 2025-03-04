@@ -16,7 +16,7 @@ from fixtures_generator.dataclass_fixtures import (
     YID,
     ZS,
     OneTwo,
-    SubtypesDataclass,
+    SubtypesDataclass, FirstSecond,
 )
 from unittest.mock import patch, Mock
 from one_patch import Op
@@ -561,9 +561,11 @@ class TestDataclassFixturesGenerator:
     @patch.object(
         tm.DataclassFixturesGenerator,
         tm.DataclassFixturesGenerator._generate_enum.__name__,
-        Mock(return_value=OneTwo.TWO),
+        side_effect=lambda field_info: (
+            FirstSecond.FIRST if issubclass(field_info.field_type, int) else OneTwo.TWO
+        ),
     )
-    def test_generate_fixtures(self):
+    def test_generate_fixtures(self, m_enum):
         result = tm.DataclassFixturesGenerator.generate_fixtures(cls_=SimpleDataclass)
         assert result == [SimpleDataclass(x=33, y=0.3, z='x')]
 
@@ -582,7 +584,9 @@ class TestDataclassFixturesGenerator:
                 y=YID(0.3),
                 z=ZS('x'),
                 one_two=OneTwo.TWO,
-                simple=SimpleDataclass(x=33, y=0.3, z='x')),
+                first_second=FirstSecond.FIRST,
+                simple=SimpleDataclass(x=33, y=0.3, z='x'),
+            ),
         ]
 
     def test_new_type(self):

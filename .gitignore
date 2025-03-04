@@ -30,6 +30,8 @@ coverage.xml
 # nodejs
 node_modules/
 
+todo.md
+
 # pytest
 .pytest_cache/
 

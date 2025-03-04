@@ -249,7 +249,7 @@ class DataclassFixturesGenerator(abc.ABC):
             if issubclass(field_info.field_type, bool):
                 return cls._generate_bool_s(field_info=field_info)
 
-            if issubclass(field_info.field_type, int):
+            if issubclass(field_info.field_type, int) and not issubclass(field_info.field_type, enum.Enum):
                 return [cls._generate_int(field_info=field_info)]
 
             if issubclass(field_info.field_type, float):
