@@ -564,8 +564,6 @@ class TestDataclassFixturesGenerator:
         Mock(return_value=OneTwo.TWO),
     )
     def test_generate_fixtures(self):
-        result = tm.DataclassFixturesGenerator.generate_fixtures(cls_=SubtypesDataclass)
-        return
         result = tm.DataclassFixturesGenerator.generate_fixtures(cls_=SimpleDataclass)
         assert result == [SimpleDataclass(x=33, y=0.3, z='x')]
 
@@ -578,7 +576,14 @@ class TestDataclassFixturesGenerator:
         ]
 
         result = tm.DataclassFixturesGenerator.generate_fixtures(cls_=SubtypesDataclass)
-        assert result == [SubtypesDataclass(x=XID(33), y=YID(0.3), z=ZS('x'), one_two=OneTwo.TWO)]
+        assert result == [
+            SubtypesDataclass(
+                x=XID(33),
+                y=YID(0.3),
+                z=ZS('x'),
+                one_two=OneTwo.TWO,
+                simple=SimpleDataclass(x=33, y=0.3, z='x')),
+        ]
 
     def test_new_type(self):
         result = tm.DataclassFixturesGenerator.generate_fixtures(cls_=SubtypesDataclass)

@@ -73,4 +73,5 @@ class SubtypesDataclass:
     y: YID
     z: ZS
     one_two: OneTwo
+    simple: SimpleDataclass
 # endregion subclasses
