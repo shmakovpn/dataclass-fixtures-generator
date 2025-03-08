@@ -348,7 +348,7 @@ class TestDataclassFixturesGenerator:
             )
 
     def test__generate_scalar_values(self):
-        with Op(tm.DataclassFixturesGenerator._generate_scalar_values) as op:
+        with Op(tm.DataclassFixturesGenerator._generate_scalar_values, exclude_set={'enum'}) as op:
             op.args.field_info.field_type = bool
             assert op.c(*op.args) == op.args.cls._generate_bool_s.return_value
 
