@@ -16,6 +16,7 @@ __all__ = (
     'YID',
     'ZS',
     'OneTwo',
+    'FirstSecond',
     'SubtypesDataclass',
 )
 
@@ -67,10 +68,17 @@ class OneTwo(enum.Enum):
     TWO = 'two'
 
 
+class FirstSecond(enum.IntEnum):
+    FIRST = 1
+    SECOND = 2
+
+
 @dataclasses.dataclass
 class SubtypesDataclass:
     x: XID
     y: YID
     z: ZS
     one_two: OneTwo
+    first_second: FirstSecond
+    simple: SimpleDataclass
 # endregion subclasses
