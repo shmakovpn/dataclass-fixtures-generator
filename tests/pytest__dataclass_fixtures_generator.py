@@ -16,7 +16,8 @@ from fixtures_generator.dataclass_fixtures import (
     YID,
     ZS,
     OneTwo,
-    SubtypesDataclass, FirstSecond,
+    SubtypesDataclass,
+    FirstSecond,
 )
 from unittest.mock import patch, Mock
 from one_patch import Op

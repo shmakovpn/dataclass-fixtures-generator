@@ -16,6 +16,7 @@ __all__ = (
     'YID',
     'ZS',
     'OneTwo',
+    'FirstSecond',
     'SubtypesDataclass',
 )
 
